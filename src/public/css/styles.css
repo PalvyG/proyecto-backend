@@ -1,0 +1,42 @@
+#header {
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+    justify-content: start;
+}
+
+h1, h2, .title {
+    margin-left: 25px;
+    max-width: 800px;
+}
+
+.flex__container {
+    display: flex;
+    gap: 100px;
+}
+
+#form__prods {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#form__prods label {
+    width: 75px;
+}
+
+#form__prods input {
+    height: 20px;
+    width: 260px;
+}
+
+#add__prod {
+    margin-top: 25px;
+    width: 100% !important
+}
+
+#footer {
+    display: flex;
+    justify-content: start;
+    margin-left: 25px;
+}
