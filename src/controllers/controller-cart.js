@@ -1,5 +1,5 @@
-import { ServiceCarts } from "../services/service-cart.js";
-const svcCart = new ServiceCarts();
+import { RepoCarts } from "../repository/repo-cart.js";
+const repoCart = new RepoCarts();
 
 export class ControllerCarts {
     constructor() { }
@@ -7,7 +7,7 @@ export class ControllerCarts {
     async getCartCtrl(req, res, next) {
         try {
             const { limit } = req.query
-            const docs = await svcCart.getCartSvc();
+            const docs = await repoCart.getCartSvc();
             if (limit >= 0) {
                 const limitDocs = docs.slice(0, limit)
                 res.status(200).json(limitDocs)
@@ -20,14 +20,14 @@ export class ControllerCarts {
     async getCartByIdCtrl(req, res, next) {
         try {
             const { cid } = req.params
-            const doc = await svcCart.getCartByIdSvc(cid)
+            const doc = await repoCart.getCartByIdSvc(cid)
             doc ? res.status(200).json({ message: '(i) Cart found successfully!', cart: doc }) : res.status(404).json({ message: '(!) Cart not found by the controller.' })
         } catch (err) { next(err) }
     }
 
     async createCartCtrl(req, res, next) {
         try {
-            const newDoc = await svcCart.createCartSvc()
+            const newDoc = await repoCart.createCartSvc()
             res.status(200).json({ message: "(i) Cart created successfully!", cart: newDoc })
         } catch (err) { next(err) }
     }
@@ -37,11 +37,11 @@ export class ControllerCarts {
             const { cid, pid } = req.params
             let { qty } = req.query
             if (!qty) qty = 1
-            const cart = await svcCart.getCartByIdSvc(cid)
+            const cart = await repoCart.getCartByIdSvc(cid)
             if (cart) {
                 if (pid) {
-                    await svcCart.addToCartSvc(cid, pid, qty)
-                    const cartUpd = await svcCart.getCartByIdSvc(cid)
+                    await repoCart.addToCartSvc(cid, pid, qty)
+                    const cartUpd = await repoCart.getCartByIdSvc(cid)
                     res.status(200).json({ message: `(i) Product was successfully added to cart! (ID: ${pid})`, update: cartUpd })
                 } else {
                     res.status(404).json({ message: `(!) Could not find product with specified ID (ID: ${pid}).` })
@@ -59,7 +59,7 @@ export class ControllerCarts {
             if (!cid) {
                 res.status(404).json({ message: `(!) Could not find cart with specified ID (ID: ${cid}).` })
             } else {
-                const cart = await svcCart.updateCartSvc(cid, arr)
+                const cart = await repoCart.updateCartSvc(cid, arr)
                 res.status(200).json({ message: `(i) Cart updated successfully!`, update: cart})
             }
         } catch (err) { next(err) }
@@ -68,11 +68,11 @@ export class ControllerCarts {
     async deleteProdFromCartCtrl(req, res, next) {
         try {
             const { cid, pid } = req.params
-            const cart = await svcCart.getCartByIdSvc(cid)
+            const cart = await repoCart.getCartByIdSvc(cid)
             if (cart) {
                 if (pid) {
-                    await svcCart.deleteProdFromCartSvc(cid, pid)
-                    const cartUpd = await svcCart.getCartByIdSvc(cid)
+                    await repoCart.deleteProdFromCartSvc(cid, pid)
+                    const cartUpd = await repoCart.getCartByIdSvc(cid)
                     res.status(200).json({ message: `(i) Product was successfully removed from cart (ID: ${pid})`, update: cartUpd })
                 } else {
                     res.status(404).json({ message: `(!) Could not find product with specified ID (ID: ${pid}).` })
@@ -89,7 +89,7 @@ export class ControllerCarts {
             if (!cid) {
                 res.status(404).json({ message: `(!) Could not find cart with specified ID (ID: ${cid}).` })
             } else {
-                const cart = await svcCart.deleteAllProdFromCartSvc(cid)
+                const cart = await repoCart.deleteAllProdFromCartSvc(cid)
                 res.status(200).json({ message: `(i) All products removed from cart successfully.`, update: cart})
             }
         } catch (err) { next(err) }
@@ -98,10 +98,10 @@ export class ControllerCarts {
     async deleteCartCtrl(req, res, next) {
         try {
             const { cid } = req.params;
-            const doc = await svcCart.getCartByIdSvc(cid)
+            const doc = await repoCart.getCartByIdSvc(cid)
             if (doc) {
                 res.status(200).json({ message: `(i) Cart was deleted successfully. (ID: ${cid})` })
-                await svcCart.deleteCartSvc(cid)
+                await repoCart.deleteCartSvc(cid)
             } else {
                 res.status(404).json({ message: `(!) Could not find cart with specified ID (ID: ${cid}).` })
             }
@@ -110,7 +110,7 @@ export class ControllerCarts {
 
     async deleteAllCartCtrl(req, res, next) {
         try {
-            await svcCart.deleteAllCartSvc()
+            await repoCart.deleteAllCartSvc()
             res.status(200).json({ message: "(i) All carts deleted successfully" })
         } catch (err) { next(err) }
     }

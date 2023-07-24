@@ -1,5 +1,5 @@
-import { ServiceProducts } from "../services/service-prod.js";
-const svcProd = new ServiceProducts();
+import { RepoProducts } from "../repository/repo-prod.js";
+const repoProd = new RepoProducts();
 
 export class ControllerProducts {
     constructor() { }
@@ -7,7 +7,7 @@ export class ControllerProducts {
     async addProdCtrl(req, res, next) {
         try {
             const newDoc = req.body
-            const newDocPost = await svcProd.addProdSvc(newDoc)
+            const newDocPost = await repoProd.addProdSvc(newDoc)
             res.status(200).json({ message: "(i) Product added successfully!", product: newDocPost })
         } catch (err) { next(err) }
     }
@@ -16,7 +16,7 @@ export class ControllerProducts {
         try {
             let { page, limit, sort, filter } = req.query
             page == null ? page = 1 : page = page
-            const result = await svcProd.getProdSvc(page, limit, sort, filter);
+            const result = await repoProd.getProdSvc(page, limit, sort, filter);
             const prevPageLink = result.hasPrevPage ? `http://localhost:8080/users?page=${result.prevPage}` : null
             const nextPageLink = result.hasNextPage ? `http://localhost:8080/users?page=${result.nextPage}` : null
             res.json({
@@ -40,7 +40,7 @@ export class ControllerProducts {
     async getProdByIdCtrl(req, res, next) {
         try {
             const { pid } = req.params
-            const doc = await svcProd.getProdByIdSvc(pid)
+            const doc = await repoProd.getProdByIdSvc(pid)
             doc ? res.status(200).json({ message: '(i) Product found successfully!', product }) : res.status(404).json({ message: '(!) Product not found by the controller.' })
             res.json(doc)
         } catch (err) { next(err) }
@@ -51,9 +51,9 @@ export class ControllerProducts {
             const { title, desc, price, stock, cat, status, thumb } = req.body;
             const newDoc = { title, desc, price, stock, cat, status, thumb }
             const { pid } = req.params;
-            const oldDoc = await svcProd.getProdByIdSvc(pid)
+            const oldDoc = await repoProd.getProdByIdSvc(pid)
             if (oldDoc) {
-                await svcProd.updateProdSvc(pid, newDoc)
+                await repoProd.updateProdSvc(pid, newDoc)
                 res.status(200).json({ message: `(i) "${newDoc.title}" (ID: ${pid}) was successfully updated!`, update: newDoc })
             } else {
                 res.status(404).json({ message: `(!) Could not find product with specified ID (ID: ${pid}).` })
@@ -64,10 +64,10 @@ export class ControllerProducts {
     async deleteProdCtrl(req, res, next) {
         try {
             const { pid } = req.params;
-            const doc = await svcProd.getProdByIdSvc(pid)
+            const doc = await repoProd.getProdByIdSvc(pid)
             if (doc) {
                 res.status(200).json({ message: `(i) "${doc.title}" was deleted successfully. (ID: ${pid})` })
-                await svcProd.deleteProdSvc(pid)
+                await repoProd.deleteProdSvc(pid)
             } else {
                 res.status(404).json({ message: `(!) Could not find product with specified ID (ID: ${pid}).` })
             }
@@ -76,7 +76,7 @@ export class ControllerProducts {
 
     async deleteAllProdCtrl(req, res, next) {
         try {
-            await svcProd.deleteAllProdSvc()
+            await repoProd.deleteAllProdSvc()
             res.status(200).json({ message: "(i) All products deleted successfully" })
         } catch (err) { next(err) }
     }

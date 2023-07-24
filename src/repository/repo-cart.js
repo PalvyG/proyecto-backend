@@ -1,7 +1,7 @@
 import { DaoMDBCart } from '../persistence/daos/mdb/dao-mdb-cart.js'
 export const daoCart = new DaoMDBCart();
 
-export class ServiceCarts {
+export class RepoCarts {
     constructor() { }
 
     async getCartSvc() {

@@ -1,7 +1,7 @@
-import { DaoMDBUser } from '../persistence/daos/mdb/dao-mdb-cart.js'
+import { DaoMDBUser } from '../persistence/daos/mdb/dao-mdb-user.js'
 export const daoUser = new DaoMDBUser();
 
-export class ServiceUsers {
+export class RepoUsers {
     constructor() { }
     
     async createUserSvc(user){

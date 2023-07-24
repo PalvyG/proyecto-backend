@@ -1,7 +1,7 @@
-import { ServiceUsers } from "../services/service-user.js";
-import { DaoMDBUser } from "../daos/mdb/dao-mdb-user.js";
+import { RepoUsers } from "../repository/repo-user.js";
+import { DaoMDBUser } from "../persistence/daos/mdb/dao-mdb-user.js";
 const userDao = new DaoMDBUser()
-const svcUser = new ServiceUsers()
+const svcUser = new RepoUsers()
 
 export class ControllerUsers {
     constructor() { }
@@ -15,13 +15,14 @@ export class ControllerUsers {
     async loginResponse(req, res, next) {
         try {
             const user = await userDao.getUserById(req.session.passport.user)
-            const {firstname, lastname, email, age, role} = user
+            const {firstname, lastname, email, age, role, access} = user
             req.session.user = {
                 firstname,
                 lastname,
                 email,
                 age,
-                role
+                role,
+                access
             }
             res.redirect('/views/login-ok')
         } catch (err) { next(err) }

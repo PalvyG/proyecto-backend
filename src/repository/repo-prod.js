@@ -1,7 +1,7 @@
-import { DaoMDBProduct } from '../persistence/daos/mdb/dao-mdb-cart.js'
+import { DaoMDBProduct } from '../persistence/daos/mdb/dao-mdb-prod.js'
 export const daoProd = new DaoMDBProduct();
 
-export class ServiceProducts {
+export class RepoProducts {
     constructor() {}
 
     async addProdSvc(prod) {
