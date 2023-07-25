@@ -10,4 +10,4 @@ const userSchema = new Schema ({
     access: {type: String, default: 'local'}
 })
 
-export const userModel = model('users', userSchema);
+export const modelUser = model('users', userSchema);

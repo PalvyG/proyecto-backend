@@ -73,7 +73,7 @@ export class DaoFSCart {
         } catch (err) { console.log(err) }
     }
 
-    async removeCart(id) {
+    async deleteCart(id) {
         try {
             const carts = await fs.promises.readFile(pathCarts, 'utf-8')
             const cartsJS = JSON.parse(carts)
@@ -87,7 +87,7 @@ export class DaoFSCart {
         } catch (err) { console.log(err) }
     }
 
-    async removeAllCarts() {
+    async deleteAllCart() {
         try {
             if (fs.existsSync(pathCarts)) {
                 await fs.promises.unlink(pathCarts)

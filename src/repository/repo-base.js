@@ -3,6 +3,13 @@ export class RepoBase {
         this.dao = daoParam
     }
 
+    async getAll() {
+        try {
+            const response = await this.dao.getAll()
+            return response
+        } catch (err) { console.log(err) }
+    }
+
     async getById(id) {
         try {
             const response = await this.dao.getById(id)

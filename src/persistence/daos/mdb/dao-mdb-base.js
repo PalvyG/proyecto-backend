@@ -3,6 +3,13 @@ export class DaoMDBBase {
         this.model = modelParam;
     }
 
+    async getAll() {
+        try {
+            const response = await this.model.find({});
+            return response;
+        } catch (err) { console.log(err) }
+    }
+
     async getById(id) {
         try {
             const findId = await this.model.findById(id);

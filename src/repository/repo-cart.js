@@ -1,19 +1,22 @@
-import { DaoMDBCart } from '../persistence/daos/mdb/dao-mdb-cart.js'
-export const daoCart = new DaoMDBCart();
+import { RepoBase } from './repo-base.js';
+import factory from '../persistence/daos/factory.js';
+const { daoCart } = factory
 
-export class RepoCarts {
-    constructor() { }
+export class RepoCarts extends RepoBase{
+    constructor() { 
+        super(daoCart)
+    }
 
     async getCartSvc() {
         try {
-            const docs = await daoCart.getCarts();
+            const docs = await this.dao.getCarts();
             return docs
         } catch (err) { console.log(err) }
     }
 
     async getCartByIdSvc(id) {
         try {
-            const doc = await daoCart.getCartById(id);
+            const doc = await this.dao.getCartById(id);
             if (!doc) throw new Error(`(!) Cart not found by the service.`)
             else return doc
         } catch (err) { console.log(err) }
@@ -21,18 +24,18 @@ export class RepoCarts {
 
     async createCartSvc() {
         try {
-            const newDoc = await daoCart.createCart()
+            const newDoc = await this.dao.createCart()
             return newDoc
         } catch (err) { console.log(err) }
     }
 
     async addToCartSvc(cid, pid, qty) {
         try {
-            const oldDoc = await daoCart.getCartById(cid)
+            const oldDoc = await this.dao.getCartById(cid)
             if (!oldDoc) {
                 throw new Error(`(!) Cart not found by the service.`)
             } else {
-                const newDoc = await daoCart.addToCart(cid, pid, qty);
+                const newDoc = await this.dao.addToCart(cid, pid, qty);
                 return newDoc
             }
         } catch (err) { console.log(err) }
@@ -40,9 +43,9 @@ export class RepoCarts {
 
     async updateCartSvc(id, arr) {
         try {
-            const oldDoc = await daoCart.getCartById(id);
+            const oldDoc = await this.dao.getCartById(id);
             if (oldDoc) {
-                const newDoc = await daoCart.updateCart(id, arr);
+                const newDoc = await this.dao.updateCart(id, arr);
                 return newDoc
             }
         } catch (err) { console.log(err) }
@@ -50,11 +53,11 @@ export class RepoCarts {
 
     async deleteProdFromCartSvc(cid, pid) {
         try {
-            const oldDoc = await daoCart.getCartById(cid)
+            const oldDoc = await this.dao.getCartById(cid)
             if (!oldDoc) {
                 throw new Error(`(!) Cart not found by the service.`)
             } else {
-                const newDoc = await daoCart.deleteProdFromCart(cid, pid);
+                const newDoc = await this.dao.deleteProdFromCart(cid, pid);
                 return newDoc
             }
         } catch (err) { console.log(err) }
@@ -62,9 +65,9 @@ export class RepoCarts {
 
     async deleteAllProdFromCartSvc(id) {
         try {
-            const oldDoc = await daoCart.getCartById(id);
+            const oldDoc = await this.dao.getCartById(id);
             if (oldDoc) {
-                const newDoc = await daoCart.deleteAllProdFromCart(id);
+                const newDoc = await this.dao.deleteAllProdFromCart(id);
                 return newDoc
             }
         } catch (err) { console.log(err) }
@@ -72,14 +75,14 @@ export class RepoCarts {
 
     async deleteCartSvc(id) {
         try {
-            const doc = await daoCart.deleteCart(id)
+            const doc = await this.dao.deleteCart(id)
             return doc
         } catch (err) { console.log(err) }
     }
 
     async deleteAllCartSvc() {
         try {
-            await daoCart.deleteAllCart()
+            await this.dao.deleteAllCart()
         } catch (err) { console.log(err) }
     }
 }

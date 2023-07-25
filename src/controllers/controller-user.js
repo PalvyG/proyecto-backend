@@ -1,10 +1,13 @@
-import { RepoUsers } from "../repository/repo-user.js";
+import { ControllerBase } from './controller-base.js'
+import { RepoUser } from "../repository/repo-user.js";
 import { DaoMDBUser } from "../persistence/daos/mdb/dao-mdb-user.js";
 const userDao = new DaoMDBUser()
-const svcUser = new RepoUsers()
+const repoUser = new RepoUser()
 
-export class ControllerUsers {
-    constructor() { }
+export class ControllerUsers extends ControllerBase {
+    constructor() {
+        super(repoUser)
+    }
 
     async registerResponse(req, res, next) {
         try {
@@ -15,7 +18,7 @@ export class ControllerUsers {
     async loginResponse(req, res, next) {
         try {
             const user = await userDao.getUserById(req.session.passport.user)
-            const {firstname, lastname, email, age, role, access} = user
+            const { firstname, lastname, email, age, role, access } = user
             req.session.user = {
                 firstname,
                 lastname,
@@ -30,7 +33,7 @@ export class ControllerUsers {
 
     async githubResponse(req, res, next) {
         try {
-            const {firstname, lastname, email, age, role, access} = req.user
+            const { firstname, lastname, email, age, role, access } = req.user
             req.session.user = {
                 firstname,
                 lastname,
@@ -46,7 +49,7 @@ export class ControllerUsers {
     async createUserCtrl(req, res, next) {
         try {
             const newDoc = req.body
-            const newDocPost = await svcUser.createUserSvc(newDoc)
+            const newDocPost = await this.repo.createUserSvc(newDoc)
             if (newDocPost) {
                 res.redirect('/views/register-ok')
             } else {
@@ -58,7 +61,7 @@ export class ControllerUsers {
     async loginUserCtrl(req, res, next) {
         try {
             const credentials = req.body
-            const user = await svcUser.loginUserSvc(credentials)
+            const user = await this.repo.loginUserSvc(credentials)
             if (user) {
                 req.session.email = credentials.email
                 req.session.password = credentials.password

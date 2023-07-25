@@ -10,18 +10,24 @@ let daoProd;
 let daoCart;
 let daoUser;
 
-const persistance = process.env.PERSISTANCE
+const persistence = process.env.PERSISTENCE
 
-switch (persistance) {
+switch (persistence) {
     case 'fs':
-        daoProd = new DaoFSProduct
-        daoCart = new DaoFSCart
+        daoProd = new DaoFSProduct()
+        daoCart = new DaoFSCart()
         break;
     case 'mdb':
         await initMDB()
-        daoProd = new DaoMDBProduct
-        daoCart = new DaoMDBCart
-        daoUser = new DaoMDBUser
+        daoProd = new DaoMDBProduct()
+        daoCart = new DaoMDBCart()
+        daoUser = new DaoMDBUser()
+        break;
+    default:
+        await initMDB()
+        daoProd = new DaoMDBProduct()
+        daoCart = new DaoMDBCart()
+        daoUser = new DaoMDBUser()
         break;
 }
 

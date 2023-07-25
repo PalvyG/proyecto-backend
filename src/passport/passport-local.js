@@ -1,6 +1,6 @@
 import passport from 'passport';
 import { Strategy as LocalStrat } from 'passport-local';
-import { DaoMDBUser } from '../daos/mdb/dao-mdb-user.js';
+import { DaoMDBUser } from '../persistence/daos/mdb/dao-mdb-user.js';
 const userDao = new DaoMDBUser();
 
 const stratOptions = {

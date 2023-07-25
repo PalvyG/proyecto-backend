@@ -1,6 +1,6 @@
 import passport from 'passport';
 import { Strategy as GithubStrat } from 'passport-github2';
-import { DaoMDBUser } from '../daos/mdb/dao-mdb-user.js';
+import { DaoMDBUser } from '../persistence/daos/mdb/dao-mdb-user.js';
 import 'dotenv/config'
 const userDao = new DaoMDBUser();
 

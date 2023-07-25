@@ -10,10 +10,11 @@ import cartsRouter from './routes/router-cart.js';
 import usersRouter from './routes/router-user.js';
 import viewsRouter from './routes/router-views.js';
 import cookieParser from 'cookie-parser';
-import { daoProd } from './services/service-prod.js'; 
 import { __dirname } from './utils.js';
 import { Server } from 'socket.io';
 import 'dotenv/config'
+import factory from './persistence/daos/factory.js';
+const { daoProd } = factory
 
 const app = express();
 const port = process.env.PORT;
