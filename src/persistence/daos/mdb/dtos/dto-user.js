@@ -4,5 +4,6 @@ export class DtoUser {
         this.surname = user.lastname
         this.yearsold = user.age
         this.mail = user.email
+        this.type = user.role
     }
 }

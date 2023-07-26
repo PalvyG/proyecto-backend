@@ -36,8 +36,8 @@ passport.use('register', registerStrat)
 passport.use('login', loginStrat)
 
 passport.serializeUser(async (user, done)=>{
-    const usuario = await userDao.getUserById(user._id)
-    done(null, usuario._id);
+    const usr = await userDao.getUserById(user._id)
+    done(null, usr._id);
 });
 
 passport.deserializeUser(async(id, done)=>{

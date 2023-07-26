@@ -87,10 +87,19 @@ export class ControllerUsers extends ControllerBase {
             const credentials = req.body
             const user = await repoUser.loginUserSvc(credentials)
             if (user) {
-                req.session.email = credentials.email
-                req.session.password = credentials.password
-                req.session.firstname = user.firstname
                 res.redirect('/views/login-ok')
+            } else {
+                res.redirect('/views/login-err')
+            }
+        } catch (err) { next(err) }
+    }
+
+    async loginUserApi(req, res, next) {
+        try {
+            const credentials = req.body
+            const user = await repoUser.loginUserSvc(credentials)
+            if (user) {
+                res.status(200).json({message: '(i) User logged in successfully.', user: user})
             } else {
                 res.redirect('/views/login-err')
             }
