@@ -22,6 +22,7 @@ export class ControllerProducts extends ControllerBase {
             const result = await repoProd.getProdSvc(page, limit, sort, filter);
             const prevPageLink = result.hasPrevPage ? `http://localhost:8080/users?page=${result.prevPage}` : null
             const nextPageLink = result.hasNextPage ? `http://localhost:8080/users?page=${result.nextPage}` : null
+            console.log(req.session)
             res.json({
                 status: result ? 'success' : 'error',
                 payload: result.docs,

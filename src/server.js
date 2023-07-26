@@ -13,7 +13,7 @@ import cookieParser from 'cookie-parser';
 import { __dirname } from './utils.js';
 import { Server } from 'socket.io';
 import 'dotenv/config'
-import factory from './persistence/daos/factory.js';
+import factory from './persistence/factory.js';
 const { daoProd } = factory
 
 const app = express();

@@ -1,5 +1,5 @@
 import { RepoBase } from './repo-base.js';
-import factory from '../persistence/daos/factory.js';
+import factory from '../persistence/factory.js';
 const { daoUser } = factory
 
 export class RepoUser extends RepoBase{

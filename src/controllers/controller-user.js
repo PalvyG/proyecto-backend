@@ -1,6 +1,6 @@
 import { ControllerBase } from './controller-base.js'
 import { RepoUser } from "../repository/repo-user.js";
-import factory from '../persistence/daos/factory.js';
+import factory from '../persistence/factory.js';
 const { daoUser } = factory;
 import { DtoUser } from '../persistence/daos/mdb/dtos/dto-user.js';
 const repoUser = new RepoUser()
@@ -93,6 +93,20 @@ export class ControllerUsers extends ControllerBase {
                 res.redirect('/views/login-ok')
             } else {
                 res.redirect('/views/login-err')
+            }
+        } catch (err) { next(err) }
+    }
+
+    async getUserDtoCtrl(req, res, next) {
+        try {
+            const isLoggedIn = req.session.passport
+            if (!isLoggedIn) {
+                res.status(400).json({message: '(!) You must be logged in to see your profile.'})
+            } else {
+                const user = await daoUser.getUserById(req.session.passport.user)
+                const { ...userDTO } = new DtoUser(user)
+                req.session.userDTO = userDTO
+                res.status(200).json({message: '(i) Profile:', profile: userDTO})
             }
         } catch (err) { next(err) }
     }

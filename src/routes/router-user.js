@@ -9,6 +9,7 @@ router.post('/register', passport.authenticate('register',{failureRedirect:'/vie
 router.post('/login', passport.authenticate('login',{failureRedirect:'/views/login-err'}), ctrlUser.loginResponse)
 router.get('/github', passport.authenticate('github',{scope:['user:email']}))
 router.get('/github-ok', passport.authenticate('github',{failureRedirect:'/views/login-err'}), ctrlUser.githubResponse)
+router.get('/profile', ctrlUser.getUserDtoCtrl)
 // router.delete('/logout', ctrlUser.logOutUserResponse)
 
 export default router;
