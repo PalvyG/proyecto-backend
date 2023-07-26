@@ -9,13 +9,13 @@ export class DaoMDBUser extends DaoMDBBase{
 
     async createUser(user) {
         try {
-            const findUser = await this.model.findOne({ email: user.email })
+            const findUser = await modelUser.findOne({ email: user.email })
             if (!findUser) {
                 if (user.email.includes('.admin') && user.password.includes('.admin')) {
-                    const newAdmin = await this.model.create({ ...user, password: createHash(user.password), role: 'admin' })
+                    const newAdmin = await modelUser.create({ ...user, password: createHash(user.password), role: 'admin' })
                     return newAdmin
                 } else {
-                    const newUser = await this.model.create({ ...user, password: createHash(user.password) });
+                    const newUser = await modelUser.create({ ...user, password: createHash(user.password) });
                     return newUser
                 }
             }
@@ -24,7 +24,7 @@ export class DaoMDBUser extends DaoMDBBase{
 
     async loginUser(user) {
         try {
-            const findUser = await this.model.findOne({ email: user.email })
+            const findUser = await modelUser.findOne({ email: user.email })
             if (findUser) {
                 const passValid = isValidPassword(user.password, findUser)
                 const result = passValid ? findUser : false
@@ -35,7 +35,7 @@ export class DaoMDBUser extends DaoMDBBase{
 
     async getUserByEmail(email) {
         try {
-            const findUser = await this.model.findOne({ email: email });
+            const findUser = await modelUser.findOne({ email: email });
             const result = findUser ? findUser : false;
             return result
         } catch (err) { console.log(err) }
@@ -43,7 +43,7 @@ export class DaoMDBUser extends DaoMDBBase{
 
     async getUserById(id) {
         try {
-            const findUser = await this.model.findById(id);
+            const findUser = await modelUser.findById(id);
             const result = findUser ? findUser : false;
             return result
         } catch (err) { console.log(err) }

@@ -49,7 +49,7 @@ export class ControllerUsers extends ControllerBase {
     async createUserCtrl(req, res, next) {
         try {
             const newDoc = req.body
-            const newDocPost = await this.repo.createUserSvc(newDoc)
+            const newDocPost = await repoUser.createUserSvc(newDoc)
             if (newDocPost) {
                 res.redirect('/views/register-ok')
             } else {
@@ -61,7 +61,7 @@ export class ControllerUsers extends ControllerBase {
     async loginUserCtrl(req, res, next) {
         try {
             const credentials = req.body
-            const user = await this.repo.loginUserSvc(credentials)
+            const user = await repoUser.loginUserSvc(credentials)
             if (user) {
                 req.session.email = credentials.email
                 req.session.password = credentials.password

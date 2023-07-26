@@ -9,28 +9,28 @@ export class DaoMDBCart extends DaoMDBBase{
     
     async createCart() {
         try {
-            const response = await this.model.create({});
+            const response = await modelCart.create({});
             return response
         } catch (err) { console.log(err) }
     }
 
     async getCarts() {
         try {
-            const response = await this.model.find({});
+            const response = await modelCart.find({});
             return response
         } catch (err) { console.log(err) }
     }
 
     async getCartById(id) {
         try {
-            const response = await this.model.findById({ _id: id });
+            const response = await modelCart.findById({ _id: id });
             return response
         } catch (err) { console.log(err) }
     }
 
     async addToCart(cid, pid, qty) {
         try {
-            const cart = await this.model.findById({ _id: cid });
+            const cart = await modelCart.findById({ _id: cid });
             const prod = await modelProd.findById({ _id: pid });
             const index = cart.products.findIndex((obj) => obj._id.toString() == prod._id.toString())
             if (index == 0 || index != -1) {
@@ -48,32 +48,32 @@ export class DaoMDBCart extends DaoMDBBase{
                 cart.products.push(prodPush)
                 cart.save();
             }
-            const cartUpd = await this.model.findById({ _id: cid });
+            const cartUpd = await modelCart.findById({ _id: cid });
             return cartUpd;
         } catch (err) { console.log(err) }
     }
 
     async updateCart (id, arr) {
         try {
-            await this.model.updateOne({_id: id}, {
+            await modelCart.updateOne({_id: id}, {
                 $set: {
                     products: arr.products,
                 }
             })
-            const cart = await this.model.findById(id)
+            const cart = await modelCart.findById(id)
             return cart
         } catch (err) { console.log(err) }
     }
 
     async deleteProdFromCart(cid, pid) {
         try {
-            const cart = await this.model.findById({ _id: cid });
+            const cart = await modelCart.findById({ _id: cid });
             const prod = await modelProd.findById({ _id: pid });
             const index = cart.products.findIndex((obj) => obj._id.toString() == prod._id.toString())
             if (index == 0 || index != -1) {
                 cart.products.splice(index, 1)
                 cart.save();
-                const cartUpd = await this.model.findById({ _id: cid });
+                const cartUpd = await modelCart.findById({ _id: cid });
                 return cartUpd;
             }
         } catch (err) { console.log(err) }
@@ -81,26 +81,26 @@ export class DaoMDBCart extends DaoMDBBase{
 
     async deleteAllProdFromCart(id) {
         try {
-            await this.model.updateOne({_id: id}, {
+            await modelCart.updateOne({_id: id}, {
                 $set: {
                     products: [],
                 }
             })
-            const cart = await this.model.findById(id)
+            const cart = await modelCart.findById(id)
             return cart
         } catch (err) { console.log(err) }
     }
 
     async deleteCart(id) {
         try {
-            const response = await this.model.findByIdAndDelete({ _id: id });
+            const response = await modelCart.findByIdAndDelete({ _id: id });
             return response
         } catch (err) { console.log(err) }
     }
 
     async deleteAllCart() {
         try {
-            const response = await this.model.deleteMany({});
+            const response = await modelCart.deleteMany({});
             return response
         } catch (err) { console.log(err) }
     }

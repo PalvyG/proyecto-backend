@@ -9,7 +9,7 @@ export class RepoProducts extends RepoBase{
 
     async addProdSvc(prod) {
         try {
-            const newDoc = await this.dao.addProduct(prod)
+            const newDoc = await daoProd.addProduct(prod)
             if (!newDoc) throw new Error(`(!) Validation error by the service.`)
             else return newDoc
         } catch (err) { console.log(err) }
@@ -17,14 +17,14 @@ export class RepoProducts extends RepoBase{
 
     async getProdSvc(page, limit, sort, filter) {
         try {
-            const docs = await this.dao.getProducts(page, limit, sort, filter);
+            const docs = await daoProd.getProducts(page, limit, sort, filter);
             return docs
         } catch (err) { console.log(err) }
     }
 
     async getProdByIdSvc(id) {
         try {
-            const doc = await this.dao.getProductById(id);
+            const doc = await daoProd.getProductById(id);
             if (!doc) throw new Error(`(!) Product not found by the service.`)
             else return doc
         } catch (err) { console.log(err) }
@@ -32,11 +32,11 @@ export class RepoProducts extends RepoBase{
 
     async updateProdSvc(id, prod) {
         try {
-            const oldDoc = await this.dao.getProductById(id)
+            const oldDoc = await daoProd.getProductById(id)
             if (!oldDoc) {
                 throw new Error(`(!) Product not found by the service.`)
             } else {
-                const newDoc = await this.dao.updateProduct(id, prod);
+                const newDoc = await daoProd.updateProduct(id, prod);
                 return newDoc
             }
         } catch (err) { console.log(err) }
@@ -44,14 +44,14 @@ export class RepoProducts extends RepoBase{
 
     async deleteProdSvc(id) {
         try {
-            const doc = await this.dao.deleteProduct(id)
+            const doc = await daoProd.deleteProduct(id)
             return doc
         } catch (err) { console.log(err) }
     }
 
     async deleteAllProdSvc() {
         try {
-            await this.dao.deleteAllProducts()
+            await daoProd.deleteAllProducts()
         } catch (err) { console.log(err) }
     }
 }

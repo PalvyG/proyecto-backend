@@ -9,14 +9,14 @@ export class RepoUser extends RepoBase{
     
     async createUserSvc(user){
         try {        
-            const newDoc = await this.dao.createUser(user)
+            const newDoc = await daoUser.createUser(user)
             return newDoc
         } catch (err) { console.log(err) }
     }
 
     async loginUserSvc(user){
         try {
-            const doc = await this.dao.loginUser(user)
+            const doc = await daoUser.loginUser(user)
             return doc
         } catch (err) { console.log(err) }
     }

@@ -10,7 +10,7 @@ export class ControllerProducts extends ControllerBase {
     async addProdCtrl(req, res, next) {
         try {
             const newDoc = req.body
-            const newDocPost = await this.repo.addProdSvc(newDoc)
+            const newDocPost = await repoProd.addProdSvc(newDoc)
             res.status(200).json({ message: "(i) Product added successfully!", product: newDocPost })
         } catch (err) { next(err) }
     }
@@ -19,7 +19,7 @@ export class ControllerProducts extends ControllerBase {
         try {
             let { page, limit, sort, filter } = req.query
             page == null ? page = 1 : page = page
-            const result = await this.repo.getProdSvc(page, limit, sort, filter);
+            const result = await repoProd.getProdSvc(page, limit, sort, filter);
             const prevPageLink = result.hasPrevPage ? `http://localhost:8080/users?page=${result.prevPage}` : null
             const nextPageLink = result.hasNextPage ? `http://localhost:8080/users?page=${result.nextPage}` : null
             res.json({
@@ -43,7 +43,7 @@ export class ControllerProducts extends ControllerBase {
     async getProdByIdCtrl(req, res, next) {
         try {
             const { pid } = req.params
-            const doc = await this.repo.getProdByIdSvc(pid)
+            const doc = await repoProd.getProdByIdSvc(pid)
             doc ? res.status(200).json({ message: '(i) Product found successfully!', product }) : res.status(404).json({ message: '(!) Product not found by the controller.' })
             res.json(doc)
         } catch (err) { next(err) }
@@ -54,9 +54,9 @@ export class ControllerProducts extends ControllerBase {
             const { title, desc, price, stock, cat, status, thumb } = req.body;
             const newDoc = { title, desc, price, stock, cat, status, thumb }
             const { pid } = req.params;
-            const oldDoc = await this.repo.getProdByIdSvc(pid)
+            const oldDoc = await repoProd.getProdByIdSvc(pid)
             if (oldDoc) {
-                await this.repo.updateProdSvc(pid, newDoc)
+                await repoProd.updateProdSvc(pid, newDoc)
                 res.status(200).json({ message: `(i) "${newDoc.title}" (ID: ${pid}) was successfully updated!`, update: newDoc })
             } else {
                 res.status(404).json({ message: `(!) Could not find product with specified ID (ID: ${pid}).` })
@@ -67,10 +67,10 @@ export class ControllerProducts extends ControllerBase {
     async deleteProdCtrl(req, res, next) {
         try {
             const { pid } = req.params;
-            const doc = await this.repo.getProdByIdSvc(pid)
+            const doc = await repoProd.getProdByIdSvc(pid)
             if (doc) {
                 res.status(200).json({ message: `(i) "${doc.title}" was deleted successfully. (ID: ${pid})` })
-                await this.repo.deleteProdSvc(pid)
+                await repoProd.deleteProdSvc(pid)
             } else {
                 res.status(404).json({ message: `(!) Could not find product with specified ID (ID: ${pid}).` })
             }
@@ -79,7 +79,7 @@ export class ControllerProducts extends ControllerBase {
 
     async deleteAllProdCtrl(req, res, next) {
         try {
-            await this.repo.deleteAllProdSvc()
+            await repoProd.deleteAllProdSvc()
             res.status(200).json({ message: "(i) All products deleted successfully" })
         } catch (err) { next(err) }
     }

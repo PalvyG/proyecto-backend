@@ -9,14 +9,14 @@ export class RepoCarts extends RepoBase{
 
     async getCartSvc() {
         try {
-            const docs = await this.dao.getCarts();
+            const docs = await daoCart.getCarts();
             return docs
         } catch (err) { console.log(err) }
     }
 
     async getCartByIdSvc(id) {
         try {
-            const doc = await this.dao.getCartById(id);
+            const doc = await daoCart.getCartById(id);
             if (!doc) throw new Error(`(!) Cart not found by the service.`)
             else return doc
         } catch (err) { console.log(err) }
@@ -24,18 +24,18 @@ export class RepoCarts extends RepoBase{
 
     async createCartSvc() {
         try {
-            const newDoc = await this.dao.createCart()
+            const newDoc = await daoCart.createCart()
             return newDoc
         } catch (err) { console.log(err) }
     }
 
     async addToCartSvc(cid, pid, qty) {
         try {
-            const oldDoc = await this.dao.getCartById(cid)
+            const oldDoc = await daoCart.getCartById(cid)
             if (!oldDoc) {
                 throw new Error(`(!) Cart not found by the service.`)
             } else {
-                const newDoc = await this.dao.addToCart(cid, pid, qty);
+                const newDoc = await daoCart.addToCart(cid, pid, qty);
                 return newDoc
             }
         } catch (err) { console.log(err) }
@@ -43,9 +43,9 @@ export class RepoCarts extends RepoBase{
 
     async updateCartSvc(id, arr) {
         try {
-            const oldDoc = await this.dao.getCartById(id);
+            const oldDoc = await daoCart.getCartById(id);
             if (oldDoc) {
-                const newDoc = await this.dao.updateCart(id, arr);
+                const newDoc = await daoCart.updateCart(id, arr);
                 return newDoc
             }
         } catch (err) { console.log(err) }
@@ -53,11 +53,11 @@ export class RepoCarts extends RepoBase{
 
     async deleteProdFromCartSvc(cid, pid) {
         try {
-            const oldDoc = await this.dao.getCartById(cid)
+            const oldDoc = await daoCart.getCartById(cid)
             if (!oldDoc) {
                 throw new Error(`(!) Cart not found by the service.`)
             } else {
-                const newDoc = await this.dao.deleteProdFromCart(cid, pid);
+                const newDoc = await daoCart.deleteProdFromCart(cid, pid);
                 return newDoc
             }
         } catch (err) { console.log(err) }
@@ -65,9 +65,9 @@ export class RepoCarts extends RepoBase{
 
     async deleteAllProdFromCartSvc(id) {
         try {
-            const oldDoc = await this.dao.getCartById(id);
+            const oldDoc = await daoCart.getCartById(id);
             if (oldDoc) {
-                const newDoc = await this.dao.deleteAllProdFromCart(id);
+                const newDoc = await daoCart.deleteAllProdFromCart(id);
                 return newDoc
             }
         } catch (err) { console.log(err) }
@@ -75,14 +75,14 @@ export class RepoCarts extends RepoBase{
 
     async deleteCartSvc(id) {
         try {
-            const doc = await this.dao.deleteCart(id)
+            const doc = await daoCart.deleteCart(id)
             return doc
         } catch (err) { console.log(err) }
     }
 
     async deleteAllCartSvc() {
         try {
-            await this.dao.deleteAllCart()
+            await daoCart.deleteAllCart()
         } catch (err) { console.log(err) }
     }
 }

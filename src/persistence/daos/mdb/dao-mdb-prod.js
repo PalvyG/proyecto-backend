@@ -8,7 +8,7 @@ export class DaoMDBProduct extends DaoMDBBase{
 
     async addProduct(prod) {
         try {
-            const response = await this.model.create(prod)
+            const response = await modelProd.create(prod)
             return response;
         } catch (err) { console.log(err) }
     }
@@ -16,10 +16,10 @@ export class DaoMDBProduct extends DaoMDBBase{
     async getProducts(page = 1, limit = 5, sort, filter) {
         try {
             if (sort == 'asc' || sort == 'desc') {
-                const response = await this.model.paginate(filter != undefined ? {cat: filter} : {}, { page, limit, sort: {price: sort} })
+                const response = await modelProd.paginate(filter != undefined ? {cat: filter} : {}, { page, limit, sort: {price: sort} })
                 return response
             } else if (sort != 'asc' && sort != 'desc') {
-                const response = await this.model.paginate(filter != undefined ? {cat: filter} : {}, { page, limit })
+                const response = await modelProd.paginate(filter != undefined ? {cat: filter} : {}, { page, limit })
                 return response
             }
         } catch (err) { console.log(err) }
@@ -27,28 +27,28 @@ export class DaoMDBProduct extends DaoMDBBase{
 
     async getProductById(id) {
         try {
-            const response = await this.model.findById(id)
+            const response = await modelProd.findById(id)
             return response
         } catch (err) { console.log(err) }
     }
 
     async updateProduct(id, prod) {
         try {
-            await this.model.updateOne({ _id: id }, prod)
+            await modelProd.updateOne({ _id: id }, prod)
             return prod
         } catch (err) { console.log(err) }
     }
 
     async deleteProduct(id) {
         try {
-            const response = await this.model.findByIdAndDelete({ _id: id })
+            const response = await modelProd.findByIdAndDelete({ _id: id })
             return response
         } catch (err) { console.log(err) }
     }
 
     async deleteAllProducts() {
         try {
-            await this.model.deleteMany({})
+            await modelProd.deleteMany({})
         } catch (err) { console.log(err) }
     }
 }
