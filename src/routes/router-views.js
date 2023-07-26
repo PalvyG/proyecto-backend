@@ -1,4 +1,6 @@
 import { Router } from 'express'
+import { ControllerUsers } from '../controllers/controller-user.js'
+const ctrlUser = new ControllerUsers();
 const router = Router();
 
 router.get('/index', async (req, res) => {
@@ -32,5 +34,7 @@ router.get('/register-ok', async (req, res) => {
 router.get('/register', async (req, res) => {
     res.render('register')
 });
+
+router.get('/profile', ctrlUser.getUserDtoResponse)
 
 export default router;

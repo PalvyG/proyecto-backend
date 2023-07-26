@@ -1,12 +1,27 @@
 import { ControllerBase } from './controller-base.js'
 import { RepoUser } from "../repository/repo-user.js";
-import { DaoMDBUser } from "../persistence/daos/mdb/dao-mdb-user.js";
-const userDao = new DaoMDBUser()
+import factory from '../persistence/daos/factory.js';
+const { daoUser } = factory;
+import { DtoUser } from '../persistence/daos/mdb/dtos/dto-user.js';
 const repoUser = new RepoUser()
 
 export class ControllerUsers extends ControllerBase {
     constructor() {
         super(repoUser)
+    }
+
+    async getUserDtoResponse(req, res, next) {
+        try {
+            const isLoggedIn = req.session.passport
+            if (!isLoggedIn) {
+                res.render('profile')
+            } else {
+                const user = await daoUser.getUserById(req.session.passport.user)
+                const { ...userDTO } = new DtoUser(user)
+                req.session.userDTO = userDTO
+                res.render('profile')
+            }
+        } catch (err) { next(err) }
     }
 
     async registerResponse(req, res, next) {
@@ -17,7 +32,7 @@ export class ControllerUsers extends ControllerBase {
 
     async loginResponse(req, res, next) {
         try {
-            const user = await userDao.getUserById(req.session.passport.user)
+            const user = await daoUser.getUserById(req.session.passport.user)
             const { firstname, lastname, email, age, role, access } = user
             req.session.user = {
                 firstname,
@@ -45,6 +60,15 @@ export class ControllerUsers extends ControllerBase {
             res.redirect('/views/login-ok')
         } catch (err) { next(err) }
     }
+
+    // async logOutUserResponse(req, res, next) {
+    //     try {
+    //         req.logout(function (err) {
+    //             if (err) { return next(err); }
+    //             res.redirect('/');
+    //         });
+    //     } catch (err) { next(err) }
+    // }
 
     async createUserCtrl(req, res, next) {
         try {

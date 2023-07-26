@@ -1,4 +1,4 @@
-export class DtoGetUser {
+export class DtoUser {
     constructor(user){
         this.name = user.firstname
         this.surname = user.lastname

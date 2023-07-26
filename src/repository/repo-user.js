@@ -6,7 +6,7 @@ export class RepoUser extends RepoBase{
     constructor() { 
         super(daoUser);
     }
-    
+
     async createUserSvc(user){
         try {        
             const newDoc = await daoUser.createUser(user)
