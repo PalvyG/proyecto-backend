@@ -40,7 +40,7 @@ const auth = async (accessToken, refreshToken, profile, done) => {
             const newUser = {
                 firstname: firstnameSplit(),
                 lastname: lastnameSplit(),
-                age: 18,
+                age: 23,
                 email: userEmail,
                 password: '',
                 access: 'github'

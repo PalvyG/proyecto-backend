@@ -1,6 +1,6 @@
 {
   "name": "03--proyecto-final",
-  "version": "3.2.3",
+  "version": "3.3.0",
   "description": "",
   "main": "src/server.js",
   "type": "module",

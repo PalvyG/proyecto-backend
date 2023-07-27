@@ -5,8 +5,11 @@ const schemaCart = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'products',
         },
+        price: { type: Number, required: true },
         qty: { type: Number, default: 1 },
+        amount: { type: Number, required: true }
     }],
+    total: { type: Number, required: true }
 })
 
 schemaCart.pre('findOne', function () {
