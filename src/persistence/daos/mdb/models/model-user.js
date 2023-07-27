@@ -6,13 +6,13 @@ const schemaUser = new Schema({
     age: { type: Number, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    cartId: { type: Schema.Types.ObjectId, required: true },
+    cartId: { type: Schema.Types.ObjectId, ref: 'carts', required: true },
     role: { type: String, default: 'user' },
     access: { type: String, default: 'local' }
 })
 
-schemaUser.pre('findOne', function () {
-    this.populate('carts._id');
+schemaUser.pre('find', function () {
+    this.populate('carts');
 });
 
 export const modelUser = model('users', schemaUser);

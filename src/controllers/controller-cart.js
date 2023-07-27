@@ -28,13 +28,6 @@ export class ControllerCarts extends ControllerBase {
         } catch (err) { next(err) }
     }
 
-    async createCartCtrl(req, res, next) {
-        try {
-            const newDoc = await repoCart.createCartSvc()
-            res.status(200).json({ message: "(i) Cart created successfully!", cart: newDoc })
-        } catch (err) { next(err) }
-    }
-
     async addToCartCtrl(req, res, next) {
         try {
             const { cid, pid } = req.params
@@ -95,26 +88,6 @@ export class ControllerCarts extends ControllerBase {
                 const cart = await repoCart.deleteAllProdFromCartSvc(cid)
                 res.status(200).json({ message: `(i) All products removed from cart successfully.`, update: cart })
             }
-        } catch (err) { next(err) }
-    }
-
-    async deleteCartCtrl(req, res, next) {
-        try {
-            const { cid } = req.params;
-            const doc = await repoCart.getCartByIdSvc(cid)
-            if (doc) {
-                res.status(200).json({ message: `(i) Cart was deleted successfully. (ID: ${cid})` })
-                await repoCart.deleteCartSvc(cid)
-            } else {
-                res.status(404).json({ message: `(!) Could not find cart with specified ID (ID: ${cid}).` })
-            }
-        } catch (err) { next(err) }
-    }
-
-    async deleteAllCartCtrl(req, res, next) {
-        try {
-            await repoCart.deleteAllCartSvc()
-            res.status(200).json({ message: "(i) All carts deleted successfully" })
         } catch (err) { next(err) }
     }
 }

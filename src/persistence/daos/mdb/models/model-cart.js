@@ -5,7 +5,7 @@ const schemaCart = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'products',
         },
-        qty: { type: Number },
+        qty: { type: Number, default: 1 },
     }],
 })
 

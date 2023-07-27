@@ -90,18 +90,4 @@ export class DaoMDBCart extends DaoMDBBase{
             return cart
         } catch (err) { console.log(err) }
     }
-
-    async deleteCart(id) {
-        try {
-            const response = await modelCart.findByIdAndDelete({ _id: id });
-            return response
-        } catch (err) { console.log(err) }
-    }
-
-    async deleteAllCart() {
-        try {
-            const response = await modelCart.deleteMany({});
-            return response
-        } catch (err) { console.log(err) }
-    }
 }

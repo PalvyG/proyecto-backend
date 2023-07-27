@@ -22,13 +22,6 @@ export class RepoCarts extends RepoBase{
         } catch (err) { console.log(err) }
     }
 
-    async createCartSvc() {
-        try {
-            const newDoc = await daoCart.createCart()
-            return newDoc
-        } catch (err) { console.log(err) }
-    }
-
     async addToCartSvc(cid, pid, qty) {
         try {
             const oldDoc = await daoCart.getCartById(cid)
@@ -70,19 +63,6 @@ export class RepoCarts extends RepoBase{
                 const newDoc = await daoCart.deleteAllProdFromCart(id);
                 return newDoc
             }
-        } catch (err) { console.log(err) }
-    }
-
-    async deleteCartSvc(id) {
-        try {
-            const doc = await daoCart.deleteCart(id)
-            return doc
-        } catch (err) { console.log(err) }
-    }
-
-    async deleteAllCartSvc() {
-        try {
-            await daoCart.deleteAllCart()
         } catch (err) { console.log(err) }
     }
 }
