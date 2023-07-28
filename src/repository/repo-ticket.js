@@ -7,6 +7,13 @@ export class RepoTicket extends RepoBase {
         super(daoTicket)
     }
 
+    async getUserTicket(email) {
+        try {
+            const arrTicket = await daoTicket.getUserTicket(email)
+            return arrTicket
+        } catch (err) { console.log(err) }
+    }
+
     async createTicket(ticket) {
         try {
             const newTicket = await daoTicket.createTicket(ticket)

@@ -20,8 +20,8 @@ export class ControllerProducts extends ControllerBase {
             let { page, limit, sort, filter } = req.query
             page == null ? page = 1 : page = page
             const result = await repoProd.getProdSvc(page, limit, sort, filter);
-            const prevPageLink = result.hasPrevPage ? `http://localhost:8080/users?page=${result.prevPage}` : null
-            const nextPageLink = result.hasNextPage ? `http://localhost:8080/users?page=${result.nextPage}` : null
+            const prevPageLink = result.hasPrevPage ? `http://localhost:8080/products?page=${result.prevPage}` : null
+            const nextPageLink = result.hasNextPage ? `http://localhost:8080/products?page=${result.nextPage}` : null
             res.json({
                 status: result ? 'success' : 'error',
                 payload: result.docs,

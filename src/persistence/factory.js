@@ -35,4 +35,4 @@ switch (persistence) {
         break;
 }
 
-export default { daoProd, daoCart, daoUser }
+export default { daoProd, daoCart, daoUser, daoTicket }
