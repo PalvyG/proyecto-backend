@@ -1,31 +1,35 @@
-import { ControllerBase } from "./controller-base.js";
 import { RepoTicket } from "../repository/repo-ticket.js";
 import factory from "../persistence/factory.js";
 const { daoUser, daoCart } = factory
 const repoTicket = new RepoTicket()
 
-export class ControllerTicket extends ControllerBase{
-    constructor() {
-        super(ControllerBase)
-    }
+export class ControllerTicket {
+    constructor() { }
 
-    async getUserTicket(req, res, next) {
+    async getAllTicketsCtrl(req, res, next) {
         try {
-            const userFind = await daoUser.getUserById(req.session.passport.user)
-            const arrTicket = await repoTicket.getUserTicket(userFind.email)
-            if(arrTicket.length < 0) {
-                res.status(404).json({
-                    message: "(!) You have no tickets in process.", 
-                    tip: "(i) Check out our products!",
-                    endpoint: "/products"
-                })
-            } else if(arrTicket.length > 0) {
-                res.status(200).json({message: "(i) Tickets retrieved successfully.", tickets: arrTicket})
-            } else res.status(500).json({message: "(!) Something went wrong.", error: "(i) Internal server error."})
+            const response = await repoTicket.getAllTickets()
+            res.status(200).json(response)
         } catch (err) { next(err) }
     }
 
-    async createTicket(req, res, next) {
+    async getUserTicketCtrl(req, res, next) {
+        try {
+            const userFind = await daoUser.getUserById(req.session.passport.user)
+            const arrTicket = await repoTicket.getUserTicket(userFind.email)
+            if (arrTicket == false) {
+                res.status(404).json({
+                    message: "(!) You have no tickets in process.",
+                    tip: "(i) Check out our products!",
+                    endpoint: "/products"
+                })
+            } else if (arrTicket.length > 0) {
+                res.status(200).json({ message: "(i) Tickets retrieved successfully.", tickets: arrTicket })
+            } else res.status(500).json({ message: "(!) Something went wrong.", error: "(i) Internal server error." })
+        } catch (err) { next(err) }
+    }
+
+    async createTicketCtrl(req, res, next) {
         try {
             const userFind = await daoUser.getUserById(req.session.passport.user)
             const userCart = await daoCart.getCartById(userFind.cartId)

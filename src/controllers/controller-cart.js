@@ -1,11 +1,8 @@
-import { ControllerBase } from "./controller-base.js";
 import { RepoCarts } from "../repository/repo-cart.js";
 const repoCart = new RepoCarts();
 
-export class ControllerCarts extends ControllerBase {
-    constructor() {
-        super(repoCart)
-    }
+export class ControllerCarts {
+    constructor() { }
 
     async getCartCtrl(req, res, next) {
         try {

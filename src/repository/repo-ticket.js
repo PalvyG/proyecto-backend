@@ -1,10 +1,13 @@
-import { RepoBase } from './repo-base.js';
 import factory from '../persistence/factory.js';
 const { daoTicket } = factory
 
-export class RepoTicket extends RepoBase {
-    constructor() {
-        super(daoTicket)
+export class RepoTicket {
+    constructor() { }
+
+    async getAllTickets() {
+        try {
+            return await daoTicket.getAllTickets()
+        } catch (err) { console.log(err) }
     }
 
     async getUserTicket(email) {
@@ -17,7 +20,7 @@ export class RepoTicket extends RepoBase {
     async createTicket(ticket) {
         try {
             const newTicket = await daoTicket.createTicket(ticket)
-            return newTicket           
+            return newTicket
         } catch (err) { console.log(err) }
     }
 }

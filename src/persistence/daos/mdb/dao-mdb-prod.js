@@ -1,10 +1,7 @@
 import { modelProd } from "./models/model-prod.js";
-import { DaoMDBBase } from "./dao-mdb-base.js";
 
-export class DaoMDBProduct extends DaoMDBBase{
-    constructor() {
-        super(modelProd)
-    }
+export class DaoMDBProduct {
+    constructor() { }
 
     async addProduct(prod) {
         try {
@@ -16,10 +13,10 @@ export class DaoMDBProduct extends DaoMDBBase{
     async getProducts(page = 1, limit = 5, sort, filter) {
         try {
             if (sort == 'asc' || sort == 'desc') {
-                const response = await modelProd.paginate(filter != undefined ? {cat: filter} : {}, { page, limit, sort: {price: sort} })
+                const response = await modelProd.paginate(filter != undefined ? { cat: filter } : {}, { page, limit, sort: { price: sort } })
                 return response
             } else if (sort != 'asc' && sort != 'desc') {
-                const response = await modelProd.paginate(filter != undefined ? {cat: filter} : {}, { page, limit })
+                const response = await modelProd.paginate(filter != undefined ? { cat: filter } : {}, { page, limit })
                 return response
             }
         } catch (err) { console.log(err) }

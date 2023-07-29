@@ -1,11 +1,8 @@
-import { RepoBase } from './repo-base.js';
 import factory from '../persistence/factory.js';
 const { daoCart } = factory
 
-export class RepoCarts extends RepoBase{
-    constructor() { 
-        super(daoCart)
-    }
+export class RepoCarts {
+    constructor() { }
 
     async getCartSvc() {
         try {

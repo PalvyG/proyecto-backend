@@ -1,11 +1,8 @@
-import { ControllerBase } from "./controller-base.js";
 import { RepoProducts } from "../repository/repo-prod.js";
 const repoProd = new RepoProducts();
 
-export class ControllerProducts extends ControllerBase {
-    constructor() {
-        super(repoProd)
-    }
+export class ControllerProducts {
+    constructor() { }
 
     async addProdCtrl(req, res, next) {
         try {

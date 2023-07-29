@@ -1,11 +1,8 @@
-import { RepoBase } from './repo-base.js';
 import factory from '../persistence/factory.js';
 const { daoProd } = factory
 
-export class RepoProducts extends RepoBase{
-    constructor() {
-        super(daoProd)
-    }
+export class RepoProducts {
+    constructor() { }
 
     async addProdSvc(prod) {
         try {

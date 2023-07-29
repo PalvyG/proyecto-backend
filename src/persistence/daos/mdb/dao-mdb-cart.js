@@ -1,11 +1,8 @@
 import { modelCart } from './models/model-cart.js'
 import { modelProd } from './models/model-prod.js'
-import { DaoMDBBase } from "./dao-mdb-base.js";
 
-export class DaoMDBCart extends DaoMDBBase {
-    constructor() {
-        super(modelCart)
-    }
+export class DaoMDBCart {
+    constructor() { }
 
     async createCart() {
         try {

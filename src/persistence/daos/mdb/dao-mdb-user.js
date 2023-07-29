@@ -1,12 +1,9 @@
 import { modelUser } from './models/model-user.js';
 import { modelCart } from './models/model-cart.js';
-import { DaoMDBBase } from "./dao-mdb-base.js";
 import { createHash, isValidPassword } from '../../../utils.js';
 
-export class DaoMDBUser extends DaoMDBBase{
-    constructor() { 
-        super(modelUser)
-    }
+export class DaoMDBUser {
+    constructor() { }
 
     async createUser(user) {
         try {
@@ -14,7 +11,7 @@ export class DaoMDBUser extends DaoMDBBase{
             if (!findUser) {
                 const newCart = await modelCart.create({})
                 if (user.email.includes('.admin') && user.password.includes('.admin')) {
-                    const newAdmin = await modelUser.create({ ...user, password: createHash(user.password), role: 'admin', cartId: newCart})
+                    const newAdmin = await modelUser.create({ ...user, password: createHash(user.password), role: 'admin', cartId: newCart })
                     return newAdmin
                 } else {
                     const newUser = await modelUser.create({ ...user, password: createHash(user.password), cartId: newCart });

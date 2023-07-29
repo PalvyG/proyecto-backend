@@ -1,14 +1,11 @@
-import { ControllerBase } from './controller-base.js'
 import { RepoUser } from "../repository/repo-user.js";
 import factory from '../persistence/factory.js';
 const { daoUser } = factory;
 import { DtoUser } from '../persistence/daos/mdb/dtos/dto-user.js';
 const repoUser = new RepoUser()
 
-export class ControllerUsers extends ControllerBase {
-    constructor() {
-        super(repoUser)
-    }
+export class ControllerUsers {
+    constructor() { }
 
     async getUserDtoResponse(req, res, next) {
         try {
@@ -99,7 +96,7 @@ export class ControllerUsers extends ControllerBase {
             const credentials = req.body
             const user = await repoUser.loginUserSvc(credentials)
             if (user) {
-                res.status(200).json({message: '(i) User logged in successfully.', user: user})
+                res.status(200).json({ message: '(i) User logged in successfully.', user: user })
             } else {
                 res.redirect('/views/login-err')
             }
@@ -110,12 +107,12 @@ export class ControllerUsers extends ControllerBase {
         try {
             const isLoggedIn = req.session.passport
             if (!isLoggedIn) {
-                res.status(400).json({message: '(!) You must be logged in to see your profile.'})
+                res.status(400).json({ message: '(!) You must be logged in to see your profile.' })
             } else {
                 const user = await daoUser.getUserById(req.session.passport.user)
                 const { ...userDTO } = new DtoUser(user)
                 req.session.userDTO = userDTO
-                res.status(200).json({message: '(i) Profile:', profile: userDTO})
+                res.status(200).json({ message: '(i) Profile:', profile: userDTO })
             }
         } catch (err) { next(err) }
     }
