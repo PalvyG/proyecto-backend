@@ -19,7 +19,7 @@ export const cartUserValidation = async (req, res, next) => {
     try {
         const isLoggedIn = req.session.passport
         if (isLoggedIn) {
-            const user = await daoUser.getById(req.session.passport.user)
+            const user = await daoUser.getUserById(req.session.passport.user)
             if (user.cartId.toString() === req.params.cid) {
                 next()
             } else {

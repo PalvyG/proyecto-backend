@@ -1,4 +1,5 @@
 import { RepoTicket } from "../repository/repo-ticket.js";
+import { newTicketCode } from "../utils.js";
 import factory from "../persistence/factory.js";
 const { daoUser, daoCart } = factory
 const repoTicket = new RepoTicket()
@@ -33,14 +34,18 @@ export class ControllerTicket {
         try {
             const userFind = await daoUser.getUserById(req.session.passport.user)
             const userCart = await daoCart.getCartById(userFind.cartId)
-            const newCode = async () => { return Date.now().toString(36) + Math.floor(Math.pow(10, 12) + Math.random() * 9 * Math.pow(10, 12)).toString(36) }
             const newDate = new Date()
             const currDate = newDate.toUTCString()
+            let cartAmount = 0;
+            userCart.products.forEach((prod) =>{
+                cartAmount += prod.amount
+            });
             const ticket = {
-                code: await newCode(),
+                code: await newTicketCode(),
                 created_at: currDate,
                 purchaser: userFind.email,
-                cart: userCart
+                products: userCart.products,
+                total: cartAmount
             }
             const response = await repoTicket.createTicket(ticket)
             res.status(200).json({ message: "(i) Ticket created successfully.", ticket: response })
